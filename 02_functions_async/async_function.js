@@ -15,6 +15,10 @@ function write_after_2seconds(msg, callBack) {
 write_after_2seconds("Two senconds delay.\n", function(msg){
     console.log("I have written " + msg + "\n");
 
+    write_after_2seconds("Four senconds delay.\n", function(msg){
+        console.log("I have written " + msg + "\n");
+    });
+
     console.log("\nFinishing the app.\n");
 });
 
