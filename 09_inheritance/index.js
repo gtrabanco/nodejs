@@ -1,5 +1,7 @@
 "use strict";
 
+var util = require("util");
+
 //Make a object constructor
 var Person = function(name) {
     this.name = name;
@@ -10,6 +12,13 @@ var Person = function(name) {
         console.log("%s is eating.", this.name);
     };
 };
+
+var PersonJob = {
+    job: function() {
+        console.log("I have no job");
+    }
+};
+Person.prototype = util._extend(Person.prototype, PersonJob);
 
 //Create other object
 var Police = function(name) {
@@ -29,29 +38,45 @@ var FireFigther = function (name) {
 FireFigther.prototype = new Person(); //Appreciate that the context of this is not Person
 
 
+//See the results
+var tom = new Person("Tom");
+tom.sayHello();
+tom.job();
+
+var rick = new Police("Rick");
+rick.job();
+
+var george = new FireFigther("George");
+george.job();
+
+
 //Create another more object
 //This way is for node but jquery for example has a extend method as well, we can create our...
-var _extend = require("util")._extend;
 
-var Soldier = function(name) {
-    this.job = function () {
+var Soldier = {
+    job: function () {
         console.log("I am a soldier and my name is %s", this.name);
     }
 };
-console.log(_extend(Soldier, Person.prototype));
+Person.prototype = util._extend(Person.prototype, Soldier);
 
 
-//See the results
-var personOne = new Person("Tom");
-personOne.sayHello();
-//personOne.job();
+var ryan = new Person("Ryan");
+ryan.job();
 
-var personTwo = new Police("Rick");
-personTwo.job();
 
-var personThree = new FireFigther("George");
-personThree.job();
+//Another more example to make it clear
+var mixing = {
+    job: function() {
+        console.log("Because the crisis now I am student and my name is %s", this.name);
+    }
+};
 
-var personFour = new Soldier("Ryan");
-console.log(personFour);
-personFour.job();
+Person.prototype = util._extend(Person.prototype, mixing);
+
+var student = new Person("Mike Wazowsky");
+student.job();
+
+//And here ryan is also a student see it
+console.log("Ryan has changed his job to student as well... Let's see it!");
+ryan.job();
