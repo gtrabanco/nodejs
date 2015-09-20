@@ -36,7 +36,7 @@ router.get('/(:id)?', function(req, res, next) {
     }
 });
 
-router.put('/p', function(req, res, next){
+router.put('/', function(req, res, next){
     console.log('body', req.body);
     res.send("Responding to a post.");
 });
