@@ -1,0 +1,22 @@
+<pre>
+    <% if (pkgInfo) { %>
+      <%= pkgInfo.name %> v. <%= pkgInfo.version %>
+        <% if (dependencies) { %>
+
+      Dependencies:
+        <% dependencies.forEach(function(module) { %>
+        <%= module.name %> v <%= module.version %> <%= (module.keywords? '-- Keywords: ' + module.keywords.join(', '):'') %>
+            <% if(module.author) { %>
+                <%= module.author.name %> <%= (module.author.email ? '<' + module.author.email + '>' : '') %>
+            <% } %>
+            <% if (module.contributors) { %>
+                Contributors:
+                <% module.contributors.forEach(function(contributor) { %>
+                    <%= contributor.name %>
+                <% }); %>
+            <% } %>
+        <% }); %>
+
+        <% } %>
+    <% } %>
+</pre>

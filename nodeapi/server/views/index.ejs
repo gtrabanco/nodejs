@@ -6,6 +6,12 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <p><%- description %></p>
+    <h3>The current second is <%= even %></h3>
+    <ul>
+      <% list.forEach(function(element) { %>
+        <li><%= element %></li>
+      <% }) %>
+    </ul>
   </body>
 </html>

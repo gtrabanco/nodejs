@@ -15,10 +15,12 @@ router.get('/', function(req, res, next) {
 
 
 //Because the previous route this wont response to / but it could if it where firts
-//And to a param like /7 or /ashfjkjs
-router.get('/(:id)?', function(req, res, next) {
+//And to a param like /id/7 or /id/ashfjkjs
+router.get('/id/:id([0-9]*)?', function(req, res, next) {
     res.send('Respond to a var');
-    var id = parseInt(req.param.id);
+    var id = parseInt(req.params.id);
+
+    console.log('Petition for a user id %d', id);
 
     //If we didn't receive a valid id, we dont need to process all, do we?
     if (id > 0) {
@@ -38,7 +40,13 @@ router.get('/(:id)?', function(req, res, next) {
 
 router.put('/', function(req, res, next){
     console.log('body', req.body);
-    res.send("Responding to a post.");
+    res.send('Responding to a post.');
 });
+
+router.all('/json', function(req, res, next){
+    console.log('Petition to a json path.');
+    res.type('json');
+    res.send({foo:'baz', xyz: 'xyz value'});
+})
 
 module.exports = router;
