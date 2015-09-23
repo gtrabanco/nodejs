@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>List of agents</h1>
+    <% if(rows.length > 0) { %>
+    <ul>
+      <% rows.forEach(function(row) { %>
+        <li><%= row.name ? row.name : 'Secret name'; %> <%= row.age ? row.age + ' years old' : 'Secret age'; %></li>
+      <% }) %>
+    </ul>
+    <% } else { %>
+    <p>No results for agents.</p>
+    <% } %>
+  </body>
+</html>
