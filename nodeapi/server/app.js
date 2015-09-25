@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var packageRoute = require('./routes/package');
 var dbRoute = require('./routes/mysql');
+var mongoRoute = require('./routes/mongo');
 
 var app = express();
 
@@ -26,8 +27,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/package', packageRoute)
+app.use('/package', packageRoute);
 app.use('/db', dbRoute);
+app.use('/mongo', mongoRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
