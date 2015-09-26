@@ -13,6 +13,16 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/agent', function (request, response, next) {
+    var path = require('path');
+    var browscap_file = path.join(__dirname, '..', 'data', 'browscap.json');
+    var browscap = require('browscap-js');
+    //browscap.setJson(browscap_file);
+
+    response.json({browser: browscap.getBrowser(request.headers['user-agent'])});
+});
+
+
 
 
 module.exports = router;
