@@ -1,4 +1,9 @@
+*.pub
+*.ocr
+*.pem
+*.key
 *exercise*
+nodeapi/server/data
 .DS_*
 .idea
 # Logs
