@@ -10,10 +10,14 @@ var Agent = mongoose.model('Agent');
 //Get Agents
 router.get('/agents', function (request, response, next) {
 
-    var Agent = new Agent();
+    Agent.list({}, function (error, list) {
+        if (error) {
+            console.log(error);
+            return response.json({ok:false, error: error});
+        }
 
-    console.log(Agent.find());
-    response.send('Fetched all agents in console');
+        response.json({ok:true, data: list});
+    });
 });
 
 router.post('/agents', function (request, response, next) {
@@ -29,6 +33,33 @@ router.post('/agents', function (request, response, next) {
         response.json({ok:true, agent: created});
     })
 });
+
+
+router.get('/agent/(:id)?', function (request, response, next) {
+    var id = request.params.id;
+
+    if (id && id.toLocaleLowerCase() === 'random') {
+        Agent.random(function(error, row) {
+            if (error) {
+                console.log(error);
+                next();
+            }
+
+            response.json({ok:true, data: row});
+        })
+    } else {
+        var resultAgent = Agent.findOne({'_id': id}, function (error, row) {
+            if (error) {
+                console.log(error);
+                return next();
+            }
+
+            response.json({ok: true, data: [row]});
+        });
+    }
+});
+
+
 
 router.get('/version', function (request, response, next) {
     response.json({version: '1.0.0'});
