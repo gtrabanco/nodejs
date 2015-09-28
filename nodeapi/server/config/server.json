@@ -1,0 +1,11 @@
+{
+    "http": true,
+    "https": {
+        "activated": true,
+        "config": {
+            "key": ".keys/key.pem",
+            "cert": ".keys/cert.crt"
+        },
+        "port": 4443
+    }
+}

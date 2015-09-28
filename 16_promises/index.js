@@ -15,7 +15,7 @@ promise
 var promisses = ['one', 'two'];
 var promisedTexts = promisses.map(echar); //Call echar function for each element in array
 
-promise.all(promissedTexts)//Also: promise.all([func1, func2...])
+promise.all(promissedTexts)//Also: promise.all([func1, func2...]) All funcs should be a promise
     .then(function(texts) {
         console.log(texts); //All finished
     })
@@ -92,10 +92,10 @@ function wait3(opcs) {
     })
 }
 
-wait3({secs: 2, text:'beginingtext'})
+var thepromise = wait3({secs: 2, text:'beginingtext'})
     .then(wait3)
     .then(function (options) {
-        options.secs=5;
+        options.secs=0.5;
         options.text='modified';
         return wait3(options);
     })

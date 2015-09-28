@@ -5,29 +5,52 @@
  */
 
 var app = require('../app');
+var appSec = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
+var https = require('https');
+var path = require('path');
+var fs = require('fs');
+var config = require(path.join(app.get('app path'), 'config', 'server.json'));
 
 /**
  * Get port from environment and store in Express.
  */
 
+
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
+var sport = normalizePort(process.env.SPORT || config.https.port || '4443');
+appSec.set('sport', sport);
 /**
  * Create HTTP server.
  */
+if (config.http) {
+  var server = http.createServer(app);
 
-var server = http.createServer(app);
+  /**
+   * Listen on provided port, on all network interfaces.
+   *///
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+if (config.https.activated) {
+  config.https.config.key = fs.readFileSync(path.join(appSec.get('app path'), config.https.config.key));
+  config.https.config.cert = fs.readFileSync(path.join(appSec.get('app path'), config.https.config.cert));
+  var sserver = https.createServer(config.https.config, appSec);
+
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+
+  sserver.listen(sport);
+  sserver.on('error', onSecError);
+  sserver.on('listening', onSecListening);
+}
+
 
 /**
  * Normalize a port into a number, string, or false.
@@ -86,6 +109,48 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+  debug('Enviroment ' + app.get('env'));
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onSecError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof sport === 'string'
+      ? 'Pipe ' + sport
+      : 'Port ' + sport;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onSecListening() {
+  var addr = sserver.address();
+  var bind = typeof addr === 'string'
+      ? 'pipe ' + addr
+      : 'port ' + addr.port;
   debug('Listening on ' + bind);
   debug('Enviroment ' + app.get('env'));
 }
