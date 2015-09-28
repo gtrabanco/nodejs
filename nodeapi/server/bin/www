@@ -5,7 +5,6 @@
  */
 
 var app = require('../app');
-var appSec = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
 var https = require('https');
@@ -21,7 +20,7 @@ var config = require(path.join(app.get('app path'), 'config', 'server.json'));
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 var sport = normalizePort(process.env.SPORT || config.https.port || '4443');
-appSec.set('sport', sport);
+app.set('sport', sport);
 /**
  * Create HTTP server.
  */
@@ -38,9 +37,9 @@ if (config.http) {
 }
 
 if (config.https.activated) {
-  config.https.config.key = fs.readFileSync(path.join(appSec.get('app path'), config.https.config.key));
-  config.https.config.cert = fs.readFileSync(path.join(appSec.get('app path'), config.https.config.cert));
-  var sserver = https.createServer(config.https.config, appSec);
+  config.https.config.key = fs.readFileSync(path.join(app.get('app path'), config.https.config.key));
+  config.https.config.cert = fs.readFileSync(path.join(app.get('app path'), config.https.config.cert));
+  var sserver = https.createServer(config.https.config, app);
 
   /**
    * Listen on provided port, on all network interfaces.
