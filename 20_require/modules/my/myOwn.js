@@ -1,0 +1,1 @@
+exports.my.myOwn = 'This my/myOwn module';

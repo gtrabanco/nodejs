@@ -1,0 +1,1 @@
+exports.sampleTwo = 'This Sample Two module';
