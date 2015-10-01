@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,27 +7,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var packageRoute = require('./routes/package');
-var dbRoute = require('./routes/mysql');
-var mongoskinRoute = require('./routes/mongoskin');
-var mongooseRoute = require('./routes/mongoose')
 
 var app = express();
-
-//App dir
-app.set('app path', __dirname);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-//Disable the x-powered-by
-app.set('x-powered-by', false);
-//app.disable('x-powered-by'); //Both equivalent
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -35,24 +24,42 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Set the upload dir
+let uploadDir = path.join(__dirname, 'upload');
+app.set("upload dir", uploadDir);
 
 
-//Auth
-app.use('/apiv1', function(request, response, next){
-    console.log(request.headers);
-    next();
-});
+
+/*
+
+//Load the multer library
+var multer = require('multer');
+var upload = multer({dest: uploadDir});
+//MULTER!!
+//Just one of this
+//app.use(upload.single('onefile')); //req.file
+//app.use(upload.array('somefiles')); // req.files
+                    // We also provide a second parameter with the number of files
+
+//Some fields with files (more than one in one form)
+let fields = [
+    {
+        name: 'onefile',
+        maxCount: 1
+    },
+    {
+        name: 'somefiles',
+        maxCount: 8
+    }
+];
+app.use(upload.fields(fields)); //req.files.onefile && req.files.somefiles
+//We also do app.use('/route/to/actionform', upload.fields(fields); //Or upload.single or upload.array
+
+//*/
+
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/package', packageRoute);
-app.use('/db', dbRoute);
-app.use('/mongosk', mongoskinRoute);
-app.use('/mongoose', mongooseRoute);
-app.use('/apiv1', require('./routes/apiv1/agents'));
-app.use('/protected', require('./routes/protected'));
-app.use('/jwt', require('./routes/jwt'));
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
