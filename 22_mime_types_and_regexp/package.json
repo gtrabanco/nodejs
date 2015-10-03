@@ -1,0 +1,14 @@
+{
+  "name": "22_mime_types",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mime-types": "^2.1.7"
+  }
+}

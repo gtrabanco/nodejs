@@ -30,29 +30,29 @@ app.set("upload dir", uploadDir);
 
 
 
-/*
+//*
 
 //Load the multer library
 var multer = require('multer');
 var upload = multer({dest: uploadDir});
 //MULTER!!
 //Just one of this
-//app.use(upload.single('onefile')); //req.file
+app.use(upload.single('onefile')); //req.file
 //app.use(upload.array('somefiles')); // req.files
                     // We also provide a second parameter with the number of files
 
-//Some fields with files (more than one in one form)
-let fields = [
-    {
-        name: 'onefile',
-        maxCount: 1
-    },
-    {
-        name: 'somefiles',
-        maxCount: 8
-    }
-];
-app.use(upload.fields(fields)); //req.files.onefile && req.files.somefiles
+////Some fields with files (more than one in one form)
+//let fields = [
+//    {
+//        name: 'onefile',
+//        maxCount: 1
+//    },
+//    {
+//        name: 'somefiles',
+//        maxCount: 8
+//    }
+//];
+//app.use(upload.fields(fields)); //req.files.onefile && req.files.somefiles
 //We also do app.use('/route/to/actionform', upload.fields(fields); //Or upload.single or upload.array
 
 //*/

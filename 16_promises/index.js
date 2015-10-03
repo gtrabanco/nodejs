@@ -51,7 +51,7 @@ wait(1).then(function (result) {
 
 function wait2(timeInSecs) {
     //If we dont return anything Promise will fail saying does not have then
-    return new Promise(function (resolve, rject) {
+    return new Promise(function (resolve, reject) {
         console.log(timeInSecs);
         setTimeout(function () {
             console.log('Done in side.');

@@ -7,6 +7,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Agent = mongoose.model('Agent');
 
+
 //Get Agents
 router.get('/agents', function (request, response, next) {
 
@@ -62,7 +63,9 @@ router.get('/agent/(:id)?', function (request, response, next) {
 
 
 router.get('/version', function (request, response, next) {
-    response.json({version: '1.0.0'});
+    response.json({
+        version: '1.0.0'
+    });
 });
 
 
